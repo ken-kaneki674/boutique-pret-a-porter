@@ -1,0 +1,35 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+  }
+  
+  header {
+    background-color: #f5f5f5;
+    padding: 40px 0;
+  }
+  
+  .collection {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 40px;
+  }
+  
+  .article {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+  }
+  
+  .article img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
