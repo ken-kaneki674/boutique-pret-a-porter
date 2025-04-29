@@ -9,13 +9,23 @@
 </head>
 <body class="bg-gray-100 opacity-0 transition-opacity duration-1000">
 
+  <div id="loader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+  
+
   <!-- Navbar -->
   <header class="sticky top-0 z-50 bg-blue-600 text-white p-4 shadow-md transition-all">
     <nav class="max-w-7xl mx-auto flex justify-between items-center">
       <a href="index.html" class="text-2xl font-bold">Alex'Shop</a>
       <ul class="flex space-x-6">
         <li><a href="index.html" class="hover:text-gray-200">Accueil</a></li>
-        <li><a href="admin.html" class="hover:text-gray-200">Gestion</a></li>
+        <li class="relative">
+          <a href="panier.html" class="hover:text-gray-200 flex items-center">
+            🛒 Panier
+            <span id="panier-count" class="ml-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
+          </a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -71,6 +81,7 @@
   </footer>
 
   <script src="auth.js"></script>
+  <script src="panier.js"></script>
 
   <script>
     window.addEventListener('load', () => {

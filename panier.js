@@ -71,4 +71,34 @@ document.getElementById('passer-commande').addEventListener('click', function() 
     afficherPanier();
     updatePanierBadge();
   });
+
+  // panier.js
+
+// Mise à jour du badge panier
+function updatePanierBadge() {
+    const panier = JSON.parse(localStorage.getItem('panier')) || [];
+    const count = panier.reduce((total, article) => total + article.quantite, 0);
+  
+    const badge = document.getElementById('panier-count');
+    if (badge) {
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+  }
+  
+  // Initialiser au chargement
+  updatePanierBadge();
+  
+  // Mettre à jour si localStorage change (ex: autre onglet)
+  window.addEventListener('storage', updatePanierBadge);
+  
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.display = 'none';
+    document.body.classList.remove('opacity-0');
+    document.body.classList.add('opacity-100');
+  });
   

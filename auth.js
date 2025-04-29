@@ -22,3 +22,9 @@ registerTab.addEventListener('click', () => {
   loginTab.classList.remove('text-blue-600', 'border-blue-600');
   loginTab.classList.add('text-gray-600');
 });
+
+window.addEventListener('load', () => {
+  document.getElementById('loader').style.display = 'none';
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('opacity-100');
+});

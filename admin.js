@@ -67,3 +67,10 @@ function editArticle(id) {
 
 // Charger les articles dès que la page est ouverte
 renderArticles();
+
+
+window.addEventListener('load', () => {
+  document.getElementById('loader').style.display = 'none';
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('opacity-100');
+});

@@ -3,11 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Prêt-à-Porter</title>
+  <title>Alex'Shop - Prêt-à-Porter Moderne</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="favicon.ico" type="image/x-icon"> <!-- 🆕 favicon -->
 </head>
+
 <body class="bg-gray-100 opacity-0 transition-opacity duration-1000">
+
+  <div id="loader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+    <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+  
 
   <!-- Navbar -->
   <header class="sticky top-0 z-50 bg-blue-600 text-white p-4 shadow-md transition-all">
@@ -15,31 +22,28 @@
       <a href="index.html" class="text-2xl font-bold">Alex'Shop</a>
       <ul class="flex space-x-6">
         <li><a href="index.html" class="hover:text-gray-200">Accueil</a></li>
-        <li><a href="admin.html" class="hover:text-gray-200">Gestion des Articles</a></li>
-        <li><a href="auth.html" class="hover:text-gray-200">Connexion/Inscription</a></li>
+        <li><a href="auth.html" class="hover:text-gray-200">Connexion</a></li>
         <li class="relative">
           <a href="panier.html" class="hover:text-gray-200 flex items-center">
             🛒 Panier
             <span id="panier-count" class="ml-1 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden">0</span>
           </a>
         </li>
-        
-        
       </ul>
     </nav>
   </header>
 
-  <!-- Hero Section (Banner) -->
+  <!-- Hero Section -->
   <section class="bg-blue-500 text-white py-20 text-center">
     <h1 class="text-4xl font-bold mb-4">Bienvenue chez Alex'Shop</h1>
     <p class="text-xl mb-6">Découvrez les dernières tendances de mode avec des articles uniques et stylés.</p>
     <a href="admin.html" class="bg-yellow-500 text-black py-2 px-6 rounded-lg text-xl hover:bg-yellow-600">Voir les Articles</a>
   </section>
 
-  <div id="articles-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"></div>
+  <!-- Grille des articles -->
+  <div id="articles-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 sm:p-6 md:p-8"></div>
 
-
-  <!-- Section 2: À Propos de Nous -->
+  <!-- À Propos -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-3xl font-semibold mb-8">À Propos de Alex'Shop</h2>
@@ -48,11 +52,11 @@
     </div>
   </section>
 
-  <!-- Section 3: Témoignages -->
+  <!-- Témoignages -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto text-center">
       <h2 class="text-3xl font-semibold mb-8">Ce Que Disent Nos Clients</h2>
-      <div class="flex space-x-8 justify-center">
+      <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-8 justify-center items-center">
         <div class="w-64 bg-gray-100 p-6 rounded-lg shadow-md">
           <p class="text-lg mb-4">"Les vêtements sont de très bonne qualité, et les prix sont abordables. Je recommande vivement!"</p>
           <p class="font-semibold">Marie L.</p>
@@ -77,8 +81,10 @@
     </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="app.js"></script>
   <script src="articles.js"></script>
+  <script src="panier.js"></script>
 
   <script>
     window.addEventListener('load', () => {
@@ -86,30 +92,6 @@
       document.body.classList.add('opacity-100');
     });
   </script>
-  
-  <script>
-    // Badge du panier
-    function updatePanierBadge() {
-      const panier = JSON.parse(localStorage.getItem('panier')) || [];
-      const count = panier.reduce((total, article) => total + article.quantite, 0);
-    
-      const badge = document.getElementById('panier-count');
-      if (badge) {
-        if (count > 0) {
-          badge.textContent = count;
-          badge.classList.remove('hidden');
-        } else {
-          badge.classList.add('hidden');
-        }
-      }
-    }
-    
-    updatePanierBadge();
-    
-    // Mettre à jour dynamiquement après ajout ou suppression
-    window.addEventListener('storage', updatePanierBadge);
-    </script>
-    
 
 </body>
 </html>

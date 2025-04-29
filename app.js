@@ -22,3 +22,9 @@ const articles = [
   
   displayArticles();
   
+  window.addEventListener('load', () => {
+    document.getElementById('loader').style.display = 'none';
+    document.body.classList.remove('opacity-0');
+    document.body.classList.add('opacity-100');
+  });
+  
