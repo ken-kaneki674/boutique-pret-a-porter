@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const multer = require('multer');
 const db = require('./db');
 
 const app = express();
@@ -9,8 +10,21 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+// Configuration de multer pour sauvegarder les images dans le dossier images/
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'images/');
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage: storage });
+
 // Servir les fichiers statiques du projet (frontend)
 app.use(express.static(path.join(__dirname)));
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Endpoints Articles using JSON db
 app.get('/api/articles', (req, res) => {
@@ -25,16 +39,27 @@ app.get('/api/articles/:id', (req, res) => {
   res.json(row);
 });
 
-app.post('/api/articles', (req, res) => {
-  const { nom, description, prix, image, categorie } = req.body;
-  const created = db.createArticle({ nom, description, prix, image, categorie });
+// Création avec upload
+app.post('/api/articles', upload.single('image'), (req, res) => {
+  const { nom, description, prix, categorie } = req.body;
+  // Si fichier uploadé, utiliser son chemin, sinon fallback ou rien
+  const imagePath = req.file ? 'images/' + req.file.filename : 'images/article1.jpg';
+
+  const created = db.createArticle({ nom, description, prix: parseFloat(prix), image: imagePath, categorie });
   res.status(201).json(created);
 });
 
-app.put('/api/articles/:id', (req, res) => {
+// Mise à jour avec upload optionnel
+app.put('/api/articles/:id', upload.single('image'), (req, res) => {
   const id = req.params.id;
-  const { nom, description, prix, image, categorie } = req.body;
-  const updated = db.updateArticle(id, { nom, description, prix, image, categorie });
+  const { nom, description, prix, categorie } = req.body;
+
+  const payload = { nom, description, prix: parseFloat(prix), categorie };
+  if (req.file) {
+    payload.image = 'images/' + req.file.filename;
+  }
+
+  const updated = db.updateArticle(id, payload);
   if (!updated) return res.status(404).json({ error: 'Not found' });
   res.json(updated);
 });

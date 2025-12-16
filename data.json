@@ -31,6 +31,14 @@
       "prix": 50,
       "image": "images/article4.jpg",
       "categorie": "accessoires"
+    },
+    {
+      "nom": "short",
+      "description": "chivopps",
+      "prix": 49,
+      "image": "images/1765888329874-830609194.jpg",
+      "categorie": "hommes",
+      "id": 5
     }
   ],
   "orders": [

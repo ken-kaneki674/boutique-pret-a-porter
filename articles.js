@@ -33,18 +33,16 @@ function renderArticles(list) {
     const card = document.createElement('div');
     card.className = 'bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition transform hover:scale-105 hover:shadow-lg';
     card.innerHTML = `
-      <a href="article.html?id=${a.id}" class="block">
+      <div class="block">
         <img src="${a.image}" alt="${a.nom}" class="w-full h-48 object-cover" loading="lazy" onerror="this.src='images/article1.jpg'">
-      </a>
+      </div>
       <div class="p-4 flex-1 flex flex-col justify-between">
         <div>
-          <a href="article.html?id=${a.id}" class="hover:underline">
-            <h3 class="text-lg font-semibold mb-2">${a.nom}</h3>
-          </a>
-          <span class="text-sm text-gray-600 mb-2">${(a.categorie||'').charAt(0).toUpperCase() + (a.categorie||'').slice(1)}</span>
+          <h3 class="text-lg font-semibold mb-2">${a.nom}</h3>
+          <span class="text-sm text-gray-600 mb-2">${(a.categorie || '').charAt(0).toUpperCase() + (a.categorie || '').slice(1)}</span>
         </div>
         <p class="text-blue-500 font-bold text-xl mb-4">${a.prix} €</p>
-        <button data-id="${a.id}" data-name="${a.nom}" data-price="${a.prix}" data-image="${a.image}" class="add-to-cart btn-ajouter bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 rounded mt-auto transition-colors duration-300">Ajouter au Panier</button>
+        <button data-id="${a.id}" data-name="${a.nom}" data-price="${a.prix}" data-image="${a.image || 'images/article1.jpg'}" class="add-to-cart btn-ajouter bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 rounded mt-auto transition-colors duration-300">Ajouter au Panier</button>
       </div>
     `;
     articlesGrid.appendChild(card);
@@ -62,8 +60,8 @@ function filterByCategory(cat) {
 // Listener catégories
 document.addEventListener('click', (e) => {
   if (e.target.classList && e.target.classList.contains('category-btn')) {
-    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('bg-blue-500','text-white'));
-    e.target.classList.add('bg-blue-500','text-white');
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('bg-blue-500', 'text-white'));
+    e.target.classList.add('bg-blue-500', 'text-white');
     const cat = e.target.dataset.category;
     renderArticles(filterByCategory(cat));
   }

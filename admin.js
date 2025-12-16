@@ -43,21 +43,23 @@ async function loadAndRender() {
 
 adminForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const payload = {
-    nom: titreInput.value,
-    categorie: categorieInput.value,
-    prix: parseFloat(prixInput.value),
-    image: imageInput.value,
-    description: descriptionInput.value
-  };
+
+  const formData = new FormData();
+  formData.append('nom', titreInput.value);
+  formData.append('categorie', categorieInput.value);
+  formData.append('prix', prixInput.value);
+  formData.append('description', descriptionInput.value);
+
+  if (imageInput.files.length > 0) {
+    formData.append('image', imageInput.files[0]);
+  }
 
   try {
     if (editId) {
       // update
       const res = await fetch(`/api/articles/${editId}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: formData // pas de Content-Type manuel !
       });
       if (!res.ok) throw new Error('Échec mise à jour');
       editId = null;
@@ -65,8 +67,7 @@ adminForm.addEventListener('submit', async (e) => {
       // create
       const res = await fetch('/api/articles', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        body: formData
       });
       if (!res.ok) throw new Error('Échec création');
     }
@@ -89,7 +90,7 @@ adminCatalogue.addEventListener('click', async (e) => {
       titreInput.value = art.nom || '';
       categorieInput.value = art.categorie || '';
       prixInput.value = art.prix || '';
-      imageInput.value = art.image || '';
+      imageInput.value = ''; // Reset file input
       descriptionInput.value = art.description || '';
       editId = art.id;
       window.scrollTo({ top: 0, behavior: 'smooth' });

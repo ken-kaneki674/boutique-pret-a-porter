@@ -1,4 +1,4 @@
-# Alex'Shop - Local Dev
+# KENOVARDY'Shop - Local Dev
 
 Backend Express + SQLite has been added to this project to provide a small REST API for articles and orders.
 
@@ -18,9 +18,10 @@ Quick start (PowerShell):
 
 3. Open the site in your browser at:
 
-   http://localhost:3000/
+   <http://localhost:3000/>
 
 Notes:
+
 - API endpoints:
   - GET /api/articles
   - GET /api/articles/:id

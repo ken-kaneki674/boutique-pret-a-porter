@@ -1,7 +1,7 @@
 // app.js - utilitaires globaux (badge panier, gestion loader)
 
 // Met à jour le badge du panier présent dans la navbar
-window.updatePanierBadge = function() {
+window.updatePanierBadge = function () {
   try {
     const panier = JSON.parse(localStorage.getItem('panier')) || [];
     const count = panier.reduce((total, article) => total + (article.quantite || 0), 0);
@@ -34,4 +34,15 @@ window.addEventListener('load', () => {
 window.addEventListener('storage', () => {
   window.updatePanierBadge();
 });
-  
+
+// Gestion Menu Mobile
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+});

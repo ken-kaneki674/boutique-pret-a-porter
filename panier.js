@@ -39,7 +39,7 @@ function afficherPanier() {
 }
 
 // Supprimer un article du panier
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
   if (event.target.classList.contains('supprimer-article')) {
     const id = event.target.dataset.id;
     panier = panier.filter(article => article.id !== id);
@@ -49,7 +49,7 @@ document.addEventListener('click', function(event) {
 });
 
 // Vider tout le panier
-document.getElementById('vider-panier').addEventListener('click', function() {
+document.getElementById('vider-panier').addEventListener('click', function () {
   panier = [];
   localStorage.removeItem('panier');
   afficherPanier();
@@ -59,43 +59,13 @@ document.getElementById('vider-panier').addEventListener('click', function() {
 afficherPanier();
 
 // Passer commande -> Redirige vers WhatsApp
-document.getElementById('passer-commande').addEventListener('click', function() {
+document.getElementById('passer-commande').addEventListener('click', function () {
   if (panier.length === 0) {
     alert("Votre panier est vide !");
     return;
   }
-  
+
   // Redirection WhatsApp
   window.open("https://wa.me/message/GM4TR23RZTU7J1", "_blank");
 });
 
-  // panier.js
-
-// Mise à jour du badge panier
-function updatePanierBadge() {
-    const panier = JSON.parse(localStorage.getItem('panier')) || [];
-    const count = panier.reduce((total, article) => total + article.quantite, 0);
-  
-    const badge = document.getElementById('panier-count');
-    if (badge) {
-      if (count > 0) {
-        badge.textContent = count;
-        badge.classList.remove('hidden');
-      } else {
-        badge.classList.add('hidden');
-      }
-    }
-  }
-  
-  // Initialiser au chargement
-  updatePanierBadge();
-  
-  // Mettre à jour si localStorage change (ex: autre onglet)
-  window.addEventListener('storage', updatePanierBadge);
-  
-  window.addEventListener('load', () => {
-    document.getElementById('loader').style.display = 'none';
-    document.body.classList.remove('opacity-0');
-    document.body.classList.add('opacity-100');
-  });
-  

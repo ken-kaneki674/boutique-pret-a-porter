@@ -29,9 +29,7 @@ button, .btn {
   border-radius: 0.5rem;
 }
 
-.hidden {
-  display: none !important;
-}
+
 
 ::-webkit-scrollbar {
   width: 8px;
