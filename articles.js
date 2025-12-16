@@ -1,70 +1,97 @@
+// articles.js
+// Génère le catalogue, applique les filtres par catégorie et gère l'ajout au panier.
+
+// articles.js — récupère le catalogue depuis l'API (/api/articles) et gère l'affichage + ajout au panier
+
 const articlesGrid = document.getElementById('articles-grid');
+const categoryButtons = document.querySelectorAll('.category-btn');
 
-// Initialiser le panier depuis localStorage
-let panier = JSON.parse(localStorage.getItem('panier')) || [];
+let articles = [];
 
-// Fonction pour sauvegarder le panier
-function sauvegarderPanier() {
-  localStorage.setItem('panier', JSON.stringify(panier));
+async function loadArticlesFromApi() {
+  try {
+    const res = await fetch('/api/articles');
+    if (!res.ok) throw new Error('Fetch failed');
+    const data = await res.json();
+    // Adapter champs si nécessaire
+    articles = data.map(a => ({ id: a.id, nom: a.nom || a.name || '', prix: a.prix || a.price || 0, image: a.image || 'images/article1.jpg', categorie: a.categorie || 'tous', description: a.description || '' }));
+  } catch (err) {
+    // fallback minimal si l'API indisponible
+    console.warn('Impossible de charger l\'API, affichage des articles par défaut.', err);
+    articles = [
+      { id: 1, nom: 'T-shirt Bleu', prix: 20, image: 'images/article1.jpg', categorie: 'hommes', description: 'T-shirt confortable en coton.' },
+      { id: 2, nom: 'Jeans Noir', prix: 40, image: 'images/article2.jpg', categorie: 'hommes', description: 'Jean coupe droite.' },
+      { id: 3, nom: 'Robe Rouge', prix: 35, image: 'images/article3.jpg', categorie: 'femmes', description: 'Robe élégante.' },
+    ];
+  }
 }
 
-// Fonction pour afficher dynamiquement tous les articles
-function afficherArticles() {
+function renderArticles(list) {
+  if (!articlesGrid) return;
   articlesGrid.innerHTML = '';
-
-  for (let i = 1; i <= 78; i++) {
-    const articleCard = document.createElement('div');
-    articleCard.className = 'bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition transform hover:scale-105 hover:shadow-lg';
-
-    articleCard.innerHTML = `
-      <img src="images/article${i}.jpg" alt="Article ${i}" class="w-full h-48 object-cover">
+  list.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-lg shadow-md overflow-hidden flex flex-col transition transform hover:scale-105 hover:shadow-lg';
+    card.innerHTML = `
+      <a href="article.html?id=${a.id}" class="block">
+        <img src="${a.image}" alt="${a.nom}" class="w-full h-48 object-cover" loading="lazy" onerror="this.src='images/article1.jpg'">
+      </a>
       <div class="p-4 flex-1 flex flex-col justify-between">
-        <h3 class="text-lg font-semibold mb-2">Article ${i}</h3>
-        <p class="text-blue-500 font-bold text-xl mb-4">${20 + i} FCFA</p>
-        <button data-id="${i}" data-name="Article ${i}" data-price="${20 + i}" data-image="images/article${i}.jpg"
-          class="ajouter-panier bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 rounded mt-auto transition-colors duration-300">
-          Ajouter au Panier
-        </button>
+        <div>
+          <a href="article.html?id=${a.id}" class="hover:underline">
+            <h3 class="text-lg font-semibold mb-2">${a.nom}</h3>
+          </a>
+          <span class="text-sm text-gray-600 mb-2">${(a.categorie||'').charAt(0).toUpperCase() + (a.categorie||'').slice(1)}</span>
+        </div>
+        <p class="text-blue-500 font-bold text-xl mb-4">${a.prix} €</p>
+        <button data-id="${a.id}" data-name="${a.nom}" data-price="${a.prix}" data-image="${a.image}" class="add-to-cart btn-ajouter bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-2 rounded mt-auto transition-colors duration-300">Ajouter au Panier</button>
       </div>
     `;
-
-    articlesGrid.appendChild(articleCard);
-  }
-}
-
-// Gestion du clic "Ajouter au Panier"
-document.addEventListener('click', function(event) {
-  if (event.target.classList.contains('ajouter-panier')) {
-    const button = event.target;
-    const nouvelArticle = {
-      id: button.dataset.id,
-      nom: button.dataset.name,
-      prix: button.dataset.price,
-      image: button.dataset.image,
-      quantite: 1
-    };
-
-    // Vérifier si l'article existe déjà dans le panier
-    const existant = panier.find(item => item.id === nouvelArticle.id);
-    if (existant) {
-      existant.quantite += 1;
-    } else {
-      panier.push(nouvelArticle);
-    }
-
-    sauvegarderPanier();
-    alert('Article ajouté au panier !');
-  }
-});
-
-// Loader (effet au chargement)
-window.addEventListener('load', () => {
-  if (document.getElementById('loader')) {
-    document.getElementById('loader').style.display = 'none';
-  }
+    articlesGrid.appendChild(card);
+  });
+  if (document.getElementById('loader')) document.getElementById('loader').style.display = 'none';
   document.body.classList.remove('opacity-0');
   document.body.classList.add('opacity-100');
+}
+
+function filterByCategory(cat) {
+  if (!cat || cat === 'tous') return articles;
+  return articles.filter(a => (a.categorie || 'tous').toLowerCase() === cat.toLowerCase());
+}
+
+// Listener catégories
+document.addEventListener('click', (e) => {
+  if (e.target.classList && e.target.classList.contains('category-btn')) {
+    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('bg-blue-500','text-white'));
+    e.target.classList.add('bg-blue-500','text-white');
+    const cat = e.target.dataset.category;
+    renderArticles(filterByCategory(cat));
+  }
 });
 
-// Lancer l'affichage des articles
-afficherArticles();
+// Gestion ajout au panier
+document.addEventListener('click', (e) => {
+  if (e.target.classList && e.target.classList.contains('add-to-cart')) {
+    const btn = e.target;
+    const nouvelArticle = {
+      id: parseInt(btn.dataset.id),
+      nom: btn.dataset.name,
+      prix: parseFloat(btn.dataset.price),
+      image: btn.dataset.image,
+      quantite: 1
+    };
+    const panier = JSON.parse(localStorage.getItem('panier')) || [];
+    const existant = panier.find(item => item.id === nouvelArticle.id);
+    if (existant) existant.quantite += 1; else panier.push(nouvelArticle);
+    localStorage.setItem('panier', JSON.stringify(panier));
+    if (window.updatePanierBadge) window.updatePanierBadge();
+    btn.textContent = 'Ajouté';
+    setTimeout(() => btn.textContent = 'Ajouter au Panier', 1000);
+  }
+});
+
+// Initialisation
+(async function init() {
+  await loadArticlesFromApi();
+  renderArticles(articles);
+})();

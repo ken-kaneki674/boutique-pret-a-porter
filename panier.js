@@ -58,19 +58,16 @@ document.getElementById('vider-panier').addEventListener('click', function() {
 // Afficher panier au chargement
 afficherPanier();
 
-// Passer commande
+// Passer commande -> Redirige vers WhatsApp
 document.getElementById('passer-commande').addEventListener('click', function() {
-    if (panier.length === 0) {
-      alert("Votre panier est vide !");
-      return;
-    }
+  if (panier.length === 0) {
+    alert("Votre panier est vide !");
+    return;
+  }
   
-    alert("✅ Commande passée avec succès ! Merci pour votre achat 🛍️");
-    panier = [];
-    localStorage.removeItem('panier');
-    afficherPanier();
-    updatePanierBadge();
-  });
+  // Redirection WhatsApp
+  window.open("https://wa.me/message/GM4TR23RZTU7J1", "_blank");
+});
 
   // panier.js
 

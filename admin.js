@@ -1,76 +1,114 @@
-const articlesList = document.getElementById('articles-list');
-const addArticleForm = document.getElementById('add-article-form');
+// admin.js — gestion CRUD via l'API /api/articles
 
-// Charger articles depuis localStorage
-let articles = JSON.parse(localStorage.getItem('adminArticles')) || [];
+const adminForm = document.getElementById('admin-form');
+const titreInput = document.getElementById('titre');
+const categorieInput = document.getElementById('categorie');
+const prixInput = document.getElementById('prix');
+const imageInput = document.getElementById('image');
+const descriptionInput = document.getElementById('description');
+const adminCatalogue = document.getElementById('admin-catalogue');
 
-// Fonction pour afficher les articles
-function renderArticles() {
-  articlesList.innerHTML = "";
-  articles.forEach(article => {
-    const articleCard = document.createElement('div');
-    articleCard.className = 'bg-white p-4 rounded shadow flex flex-col items-center';
+let editId = null;
 
-    articleCard.innerHTML = `
-      <img src="${article.image}" alt="${article.name}" class="w-full h-48 object-cover rounded mb-4">
-      <h4 class="text-xl font-semibold mb-2">${article.name}</h4>
-      <p class="mb-4">Prix : ${article.price}FCFA</p>
-      <div class="flex space-x-4">
-        <button onclick="editArticle(${article.id})" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Modifier</button>
-        <button onclick="deleteArticle(${article.id})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Supprimer</button>
-      </div>
-    `;
-
-    articlesList.appendChild(articleCard);
-  });
-}
-
-// Ajouter un article via formulaire
-addArticleForm.addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const name = document.getElementById('article-name').value;
-  const price = document.getElementById('article-price').value;
-  const image = document.getElementById('article-image').value;
-
-  const newArticle = {
-    id: Date.now(), // nouvel ID unique
-    name,
-    price,
-    image
-  };
-
-  articles.push(newArticle);
-  localStorage.setItem('adminArticles', JSON.stringify(articles));
-  renderArticles();
-  addArticleForm.reset();
-});
-
-// Supprimer un article
-function deleteArticle(id) {
-  articles = articles.filter(article => article.id !== id);
-  localStorage.setItem('adminArticles', JSON.stringify(articles));
-  renderArticles();
-}
-
-// Modifier un article
-function editArticle(id) {
-  const article = articles.find(a => a.id === id);
-  if (article) {
-    document.getElementById('article-name').value = article.name;
-    document.getElementById('article-price').value = article.price;
-    document.getElementById('article-image').value = article.image;
-
-    deleteArticle(id); // supprime l'ancien pour enregistrer la nouvelle version
+async function fetchArticles() {
+  try {
+    const res = await fetch('/api/articles');
+    if (!res.ok) throw new Error('Fetch failed');
+    return await res.json();
+  } catch (e) {
+    console.error('Impossible de récupérer les articles', e);
+    return [];
   }
 }
 
-// Charger les articles dès que la page est ouverte
-renderArticles();
+async function loadAndRender() {
+  const list = await fetchArticles();
+  adminCatalogue.innerHTML = '';
+  list.forEach(a => {
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-lg shadow-md p-4 flex flex-col';
+    card.innerHTML = `
+      <img src="${a.image || 'images/article1.jpg'}" alt="${a.nom}" class="w-full h-48 object-cover rounded mb-3">
+      <h3 class="text-xl font-semibold">${a.nom}</h3>
+      <p class="text-gray-600 mb-2">${a.description || ''}</p>
+      <p class="fw-bold mb-3">Prix: ${a.prix} €</p>
+      <div class="mt-auto flex gap-2">
+        <button class="edit-article btn btn-warning" data-id="${a.id}">Modifier</button>
+        <button class="delete-article btn btn-danger" data-id="${a.id}">Supprimer</button>
+      </div>
+    `;
+    adminCatalogue.appendChild(card);
+  });
+}
 
+adminForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const payload = {
+    nom: titreInput.value,
+    categorie: categorieInput.value,
+    prix: parseFloat(prixInput.value),
+    image: imageInput.value,
+    description: descriptionInput.value
+  };
 
-window.addEventListener('load', () => {
-  document.getElementById('loader').style.display = 'none';
-  document.body.classList.remove('opacity-0');
-  document.body.classList.add('opacity-100');
+  try {
+    if (editId) {
+      // update
+      const res = await fetch(`/api/articles/${editId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Échec mise à jour');
+      editId = null;
+    } else {
+      // create
+      const res = await fetch('/api/articles', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) throw new Error('Échec création');
+    }
+    adminForm.reset();
+    await loadAndRender();
+  } catch (err) {
+    alert('Erreur lors de l\'opération: ' + err.message);
+  }
 });
+
+// Delegation pour edit/delete
+adminCatalogue.addEventListener('click', async (e) => {
+  const editBtn = e.target.closest('.edit-article');
+  const delBtn = e.target.closest('.delete-article');
+  if (editBtn) {
+    const id = editBtn.dataset.id;
+    try {
+      const res = await fetch(`/api/articles/${id}`);
+      const art = await res.json();
+      titreInput.value = art.nom || '';
+      categorieInput.value = art.categorie || '';
+      prixInput.value = art.prix || '';
+      imageInput.value = art.image || '';
+      descriptionInput.value = art.description || '';
+      editId = art.id;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      alert('Impossible de charger l\'article');
+    }
+  } else if (delBtn) {
+    const id = delBtn.dataset.id;
+    if (!confirm('Confirmer la suppression ?')) return;
+    try {
+      const res = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
+      if (!res.ok && res.status !== 204) throw new Error('Échec suppression');
+      await loadAndRender();
+    } catch (err) {
+      alert('Erreur suppression: ' + err.message);
+    }
+  }
+});
+
+// Initial load
+loadAndRender();
+

@@ -1,30 +1,37 @@
-const articles = [
-    { id: 1, name: "T-shirt Bleu", price: 20 },
-    { id: 2, name: "Jeans Noir", price: 40 },
-  ];
-  
-  const articleList = document.getElementById("articles");
-  
-  function displayArticles() {
-    articleList.innerHTML = '';
-    articles.forEach(article => {
-      const articleDiv = document.createElement("div");
-      articleDiv.classList.add("p-4", "bg-white", "shadow-lg", "rounded-lg");
-  
-      articleDiv.innerHTML = `
-        <h3 class="text-lg font-bold">${article.name}</h3>
-        <p class="text-gray-700">Prix: ${article.price} FCFA</p>
-      `;
-  
-      articleList.appendChild(articleDiv);
-    });
+// app.js - utilitaires globaux (badge panier, gestion loader)
+
+// Met à jour le badge du panier présent dans la navbar
+window.updatePanierBadge = function() {
+  try {
+    const panier = JSON.parse(localStorage.getItem('panier')) || [];
+    const count = panier.reduce((total, article) => total + (article.quantite || 0), 0);
+    const badge = document.getElementById('panier-count');
+    if (badge) {
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+      } else {
+        badge.textContent = '';
+        badge.classList.add('hidden');
+      }
+    }
+  } catch (e) {
+    // ignore
   }
-  
-  displayArticles();
-  
-  window.addEventListener('load', () => {
-    document.getElementById('loader').style.display = 'none';
-    document.body.classList.remove('opacity-0');
-    document.body.classList.add('opacity-100');
-  });
+};
+
+// Au chargement, retirer loader si présent et afficher le body
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  if (loader) loader.style.display = 'none';
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('opacity-100');
+  // Mettre à jour badge lors du load
+  window.updatePanierBadge();
+});
+
+// Réagir aux changements du localStorage (autres onglets)
+window.addEventListener('storage', () => {
+  window.updatePanierBadge();
+});
   
