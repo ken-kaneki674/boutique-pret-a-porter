@@ -27,10 +27,10 @@ function writeData(data) {
 const data = readData();
 if (!Array.isArray(data.articles) || data.articles.length === 0) {
   data.articles = [
-    { id: 1, nom: 'T-shirt Bleu', description: 'T-shirt confortable en coton.', prix: 20, image: 'images/article1.jpg', categorie: 'hommes' },
-    { id: 2, nom: 'Jeans Noir', description: 'Jean coupe droite, matière résistante.', prix: 40, image: 'images/article2.jpg', categorie: 'hommes' },
-    { id: 3, nom: 'Robe Rouge', description: 'Robe élégante pour toutes occasions.', prix: 35, image: 'images/article3.jpg', categorie: 'femmes' },
-    { id: 4, nom: 'Sac à main', description: 'Sac à main en imitation cuir.', prix: 50, image: 'images/article4.jpg', categorie: 'accessoires' }
+    { id: 1, nom: 'Chanel No. 5', description: 'Le parfum intemporel et légendaire.', prix: 120, image: 'images/article1.jpg', categorie: 'parfums' },
+    { id: 2, nom: 'Brume Victoria', description: 'Une brume légère et fruitée.', prix: 25, image: 'images/article2.jpg', categorie: 'brume' },
+    { id: 3, nom: 'Déodorant Sauvage', description: 'Protection longue durée.', prix: 35, image: 'images/article3.jpg', categorie: 'deodorants' },
+    { id: 4, nom: 'Coffret Luxe', description: 'Assortiment complet.', prix: 150, image: 'images/article4.jpg', categorie: 'parfums' }
   ];
   writeData(data);
 }

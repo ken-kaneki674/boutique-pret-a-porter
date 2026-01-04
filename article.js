@@ -1,7 +1,7 @@
 // Script pour afficher dynamiquement le détail d'un article sur article.html
 // Utilise l'id passé en paramètre d'URL
 
-// Exemple d'utilisation : article.html?id=1
+const API_URL = 'http://localhost:3000'; // Make sure backend is running on this port
 
 document.addEventListener('DOMContentLoaded', async function () {
   const params = new URLSearchParams(window.location.search);
@@ -13,19 +13,28 @@ document.addEventListener('DOMContentLoaded', async function () {
   }
 
   try {
-    const res = await fetch(`/api/articles/${id}`);
+    const res = await fetch(`${API_URL}/api/articles/${id}`);
     if (!res.ok) throw new Error('Article introuvable');
     const article = await res.json();
 
+    const imgSrc = article.image ? (article.image.startsWith('http') ? article.image : `${API_URL}/${article.image}`) : `${API_URL}/images/article1.jpg`;
+
     const container = document.getElementById('article-detail');
     container.innerHTML = `
-      <img src="${article.image || 'images/article1.jpg'}" alt="${article.nom}" class="w-full md:w-80 h-64 object-cover rounded-lg mb-6 md:mb-0" loading="lazy">
-      <div class="flex-1 flex flex-col justify-between">
-        <h2 class="text-3xl font-bold mb-4">${article.nom}</h2>
-        <span class="text-lg text-gray-600 mb-2">${(article.categorie || 'Inconnu').charAt(0).toUpperCase() + (article.categorie || '').slice(1)}</span>
-        <p class="text-gray-700 mb-4">${article.description || 'Pas de description disponible.'}</p>
-        <p class="text-blue-500 font-bold text-2xl mb-6">${article.prix} FCFA</p>
-        <button id="ajouter-panier-detail" class="bg-yellow-400 hover:bg-yellow-500 text-black font-bold py-3 px-8 rounded-lg text-lg transition-colors duration-300">Ajouter au Panier</button>
+      <img src="${imgSrc}" alt="${article.nom}" class="w-full md:w-1/2 h-96 object-cover rounded-2xl mb-6 md:mb-0 shadow-lg" loading="lazy" onerror="this.src='${API_URL}/images/article1.jpg'">
+      <div class="flex-1 flex flex-col justify-center p-6">
+        <h2 class="text-4xl font-extrabold mb-4 text-gray-900">${article.nom}</h2>
+        <span class="inline-block bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full w-fit mb-4 font-semibold shadow-sm">
+            ${(article.categorie || 'Inconnu').charAt(0).toUpperCase() + (article.categorie || '').slice(1)}
+        </span>
+        <p class="text-gray-600 mb-6 text-lg leading-relaxed">${article.description || 'Pas de description disponible.'}</p>
+        <div class="flex items-end gap-4 mb-8">
+             <p class="text-indigo-600 font-bold text-4xl">${article.prix} €</p>
+        </div>
+        
+        <button id="ajouter-panier-detail" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl text-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 w-full md:w-auto">
+            Ajouter au Panier 🛒
+        </button>
       </div>
     `;
 
@@ -45,13 +54,23 @@ document.addEventListener('DOMContentLoaded', async function () {
         });
       }
       localStorage.setItem('panier', JSON.stringify(panier));
-      alert('Article ajouté au panier !');
+
+      const btn = this;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '✓ Ajouté !';
+      btn.classList.add('bg-green-600');
+
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('bg-green-600');
+      }, 2000);
+
       // Mettre à jour le badge panier
       if (window.updatePanierBadge) window.updatePanierBadge();
     });
 
   } catch (err) {
     console.error(err);
-    document.getElementById('article-detail').innerHTML = '<p class="text-center text-red-500">Impossible de charger l\'article.</p>';
+    document.getElementById('article-detail').innerHTML = '<p class="text-center text-red-500 text-xl py-10">Impossible de charger l\'article. Vérifiez que le serveur backend est lancé.</p>';
   }
 });

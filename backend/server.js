@@ -10,10 +10,10 @@ const port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Configuration de multer pour sauvegarder les images dans le dossier frontend/images/
+// Configuration de multer pour sauvegarder les images dans le dossier images/
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../frontend/images/'));
+    cb(null, path.join(__dirname, '../images/'));
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -23,8 +23,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Servir les fichiers statiques du projet (frontend)
-app.use(express.static(path.join(__dirname, 'frontend')));
-app.use('/images', express.static(path.join(__dirname, 'frontend', 'images')));
+app.use(express.static(path.join(__dirname, '..')));
+app.use('/images', express.static(path.join(__dirname, '..', 'images')));
 
 // Endpoints Articles using JSON db
 app.get('/api/articles', (req, res) => {

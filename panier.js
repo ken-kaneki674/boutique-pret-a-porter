@@ -1,3 +1,5 @@
+// panier.js - Gestion du panier d'achat
+
 // Récupérer panier depuis localStorage
 let panier = JSON.parse(localStorage.getItem('panier')) || [];
 
@@ -6,10 +8,12 @@ const totalPrix = document.getElementById('total-prix');
 
 // Afficher les articles du panier
 function afficherPanier() {
+  if (!panierContainer || !totalPrix) return;
+
   panierContainer.innerHTML = "";
 
   if (panier.length === 0) {
-    panierContainer.innerHTML = "<p class='text-center col-span-3'>Votre panier est vide.</p>";
+    panierContainer.innerHTML = "<p class='text-center col-span-3 text-gray-500'>Votre panier est vide.</p>";
     totalPrix.textContent = "";
     return;
   }
@@ -17,22 +21,24 @@ function afficherPanier() {
   let total = 0;
 
   panier.forEach(article => {
-    total += article.prix * article.quantite;
+    const quantite = article.quantite || 1;
+    const prix = parseFloat(article.prix) || 0;
+    total += prix * quantite;
 
     const articleCard = document.createElement('div');
     articleCard.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow";
 
     articleCard.innerHTML = `
       <div class="relative h-48">
-          <img src="${article.image}" alt="${article.nom}" class="w-full h-full object-cover">
+          <img src="${article.image || 'images/article1.jpg'}" alt="${article.nom || 'Article'}" class="w-full h-full object-cover" onerror="this.src='images/article1.jpg'">
           <div class="absolute top-2 right-2">
-             <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">x${article.quantite}</span>
+             <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">x${quantite}</span>
           </div>
       </div>
       <div class="p-5 flex-1 flex flex-col">
-        <h3 class="text-lg font-bold text-gray-900 mb-1">${article.nom}</h3>
-        <p class="text-indigo-600 font-bold text-xl mb-4">${article.prix} €/unité</p>
-        
+        <h3 class="text-lg font-bold text-gray-900 mb-1">${article.nom || 'Article sans nom'}</h3>
+        <p class="text-indigo-600 font-bold text-xl mb-4">${prix.toFixed(2)} €/unité</p>
+
         <div class="mt-auto">
             <button data-id="${article.id}" class="supprimer-article w-full bg-red-50 text-red-600 hover:bg-red-100 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2">
                 <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
@@ -45,37 +51,54 @@ function afficherPanier() {
     panierContainer.appendChild(articleCard);
   });
 
-  totalPrix.textContent = `Total : ${total}€`;
+  totalPrix.textContent = `Total : ${total.toFixed(2)}€`;
 }
 
 // Supprimer un article du panier
 document.addEventListener('click', function (event) {
   if (event.target.classList.contains('supprimer-article')) {
-    const id = event.target.dataset.id;
+    const id = parseInt(event.target.dataset.id);
     panier = panier.filter(article => article.id !== id);
     localStorage.setItem('panier', JSON.stringify(panier));
     afficherPanier();
+    if (window.updatePanierBadge) window.updatePanierBadge();
   }
 });
 
 // Vider tout le panier
-document.getElementById('vider-panier').addEventListener('click', function () {
-  panier = [];
-  localStorage.removeItem('panier');
-  afficherPanier();
-});
+const viderBtn = document.getElementById('vider-panier');
+if (viderBtn) {
+  viderBtn.addEventListener('click', function () {
+    if (confirm('Êtes-vous sûr de vouloir vider le panier ?')) {
+      panier = [];
+      localStorage.removeItem('panier');
+      afficherPanier();
+      if (window.updatePanierBadge) window.updatePanierBadge();
+    }
+  });
+}
 
 // Afficher panier au chargement
 afficherPanier();
 
 // Passer commande -> Redirige vers WhatsApp
-document.getElementById('passer-commande').addEventListener('click', function () {
-  if (panier.length === 0) {
-    alert("Votre panier est vide !");
-    return;
-  }
+const commandeBtn = document.getElementById('passer-commande');
+if (commandeBtn) {
+  commandeBtn.addEventListener('click', function () {
+    if (panier.length === 0) {
+      alert("Votre panier est vide !");
+      return;
+    }
 
-  // Redirection WhatsApp
-  window.open("https://wa.me/message/GM4TR23RZTU7J1", "_blank");
-});
+    // Créer un message WhatsApp avec le contenu du panier
+    let message = "Bonjour, je souhaite passer commande :\n\n";
+    panier.forEach(article => {
+      message += `${article.nom} (x${article.quantite}) - ${article.prix}€\n`;
+    });
+    message += `\nTotal: ${panier.reduce((total, article) => total + article.prix * article.quantite, 0).toFixed(2)}€`;
+
+    const whatsappUrl = `https://wa.me/message/GM4TR23RZTU7J1?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  });
+}
 

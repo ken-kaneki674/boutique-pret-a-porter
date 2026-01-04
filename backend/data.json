@@ -1,132 +1,13 @@
 {
   "articles": [
     {
-      "id": 1,
-      "nom": "T-shirt Bleu",
-      "description": "T-shirt confortable en coton.",
-      "prix": 20,
-      "image": "images/article1.jpg",
-      "categorie": "hommes"
-    },
-    {
-      "id": 2,
-      "nom": "Jeans Noir",
-      "description": "Jean coupe droite, matière résistante.",
-      "prix": 40,
-      "image": "images/article2.jpg",
-      "categorie": "hommes"
-    },
-    {
-      "id": 3,
-      "nom": "Robe Rouge",
-      "description": "Robe élégante pour toutes occasions.",
-      "prix": 35,
-      "image": "images/article3.jpg",
-      "categorie": "femmes"
-    },
-    {
-      "id": 4,
-      "nom": "Sac à main",
-      "description": "Sac à main en imitation cuir.",
-      "prix": 50,
-      "image": "images/article4.jpg",
-      "categorie": "accessoires"
+      "nom": "mjdnjkdbhjd dddncbdjc",
+      "description": "n djncdjcnjcndjmkcv",
+      "prix": 1223,
+      "image": "images/1767456701602-495539898.webp",
+      "categorie": "deodorants",
+      "id": 1
     }
   ],
-  "orders": [
-    {
-      "id": 1,
-      "data": {
-        "items": [
-          {
-            "id": 1,
-            "nom": "T-shirt Bleu",
-            "prix": 20,
-            "image": "images/article1.jpg",
-            "quantite": 2
-          },
-          {
-            "id": 2,
-            "nom": "Jeans Noir",
-            "prix": 40,
-            "image": "images/article2.jpg",
-            "quantite": 1
-          },
-          {
-            "id": 3,
-            "nom": "Robe Rouge",
-            "prix": 35,
-            "image": "images/article3.jpg",
-            "quantite": 1
-          }
-        ],
-        "total": 115
-      },
-      "created_at": "2025-10-26T14:38:12.613Z"
-    },
-    {
-      "id": 2,
-      "data": {
-        "items": [
-          {
-            "id": 1,
-            "nom": "T-shirt Bleu",
-            "prix": 20,
-            "image": "images/article1.jpg",
-            "quantite": 9
-          }
-        ],
-        "total": 180
-      },
-      "created_at": "2025-10-27T16:39:15.712Z"
-    },
-    {
-      "id": 3,
-      "data": {
-        "items": [
-          {
-            "id": 3,
-            "nom": "Robe Rouge",
-            "prix": 35,
-            "image": "images/article3.jpg",
-            "quantite": 1
-          }
-        ],
-        "total": 35
-      },
-      "created_at": "2025-10-27T16:41:11.147Z"
-    },
-    {
-      "id": 4,
-      "data": {
-        "items": [
-          {
-            "id": 3,
-            "nom": "Robe Rouge",
-            "prix": 35,
-            "image": "images/article3.jpg",
-            "quantite": 1
-          }
-        ],
-        "total": 35
-      },
-      "created_at": "2025-12-16T09:52:37.600Z"
-    },
-    {
-      "id": 5,
-      "data": {
-        "items": [
-          {
-            "id": 2,
-            "nom": "Jeans Noir",
-            "prix": 40,
-            "image": "images/article2.jpg",
-            "quantite": 1
-          }
-        ],
-        "total": 40
-      },
-      "created_at": "2025-12-16T09:53:10.862Z"
-    }
-  ]
+  "orders": []
 }
