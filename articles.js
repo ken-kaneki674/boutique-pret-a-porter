@@ -45,13 +45,13 @@ function renderArticles(list) {
 
   if (list.length === 0) {
     articlesGrid.innerHTML = `
-      <div class="col-span-full text-center py-12">
+      <div class="col-span-full text-center py-16">
         <div class="text-gray-400 mb-4">
-          <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-20 h-20 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-5.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
           </svg>
         </div>
-        <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun article trouvé</h3>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucun article trouvé</h3>
         <p class="text-gray-500">Essayez de changer de catégorie ou rechargez la page.</p>
       </div>
     `;
@@ -60,17 +60,21 @@ function renderArticles(list) {
 
   list.forEach(a => {
     const card = document.createElement('div');
-    card.className = 'group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1';
+    card.className = 'group bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden flex flex-col transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:border-indigo-200';
 
     // Image Section with Zoom Effect
     const imageHTML = `
-      <div class="relative overflow-hidden h-64 bg-gray-100">
-        <img src="${a.image}" alt="${a.nom}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" loading="lazy" onerror="this.src='images/article1.jpg'">
-        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-        <button class="absolute top-3 right-3 bg-white/90 backdrop-blur text-gray-700 p-2 rounded-full shadow-sm hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300" title="Ajouter aux favoris">
-           ♥
+      <div class="relative overflow-hidden h-72 bg-gradient-to-br from-gray-50 to-gray-100">
+        <img src="${a.image}" alt="${a.nom}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" onerror="this.src='images/article1.jpg'">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        
+        <button class="absolute top-4 right-4 bg-white/95 backdrop-blur-sm text-gray-600 p-3 rounded-full shadow-lg hover:text-red-500 hover:bg-white transition-all opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 duration-300 hover:scale-110" title="Ajouter aux favoris">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+          </svg>
         </button>
-        <span class="absolute top-3 left-3 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md uppercase tracking-wide">
+        
+        <span class="absolute top-4 left-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs font-bold px-4 py-2 rounded-full shadow-lg uppercase tracking-wider">
           ${a.categorie || 'Nouveauté'}
         </span>
       </div>
@@ -79,22 +83,30 @@ function renderArticles(list) {
     // Content Section
     const contentHTML = `
       <div class="p-6 flex-1 flex flex-col">
-        <div class="mb-4">
-          <h3 class="text-lg font-bold text-gray-900 group-hover:text-indigo-600 transition-colors line-clamp-1" title="${a.nom}">${a.nom}</h3>
-          <p class="text-sm text-gray-500 line-clamp-2 mt-1">${a.description}</p>
+        <div class="mb-4 flex-1">
+          <h3 class="text-xl font-serif font-bold text-gray-900 group-hover:text-indigo-600 transition-colors mb-2 line-clamp-1" title="${a.nom}">${a.nom}</h3>
+          <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed">${a.description}</p>
         </div>
 
-        <div class="mt-auto flex items-center justify-between">
-          <span class="text-2xl font-bold text-gray-900">${window.formatPrice ? window.formatPrice(a.prix) : a.prix + ' €'}</span>
+        <div class="mt-auto pt-4 border-t border-gray-100">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <p class="text-xs text-gray-500 mb-1">Prix</p>
+              <span class="text-3xl font-bold text-gray-900">${window.formatPrice ? window.formatPrice(a.prix) : a.prix + ' €'}</span>
+            </div>
+          </div>
+          
           <button
             data-id="${a.id}"
             data-name="${a.nom}"
             data-price="${a.prix}"
             data-image="${a.image}"
-            class="add-to-cart btn-ajouter bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 px-4 rounded-xl shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="add-to-cart btn-ajouter w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 transition-all active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
             title="Ajouter au panier">
-            <span>Ajouter</span>
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <svg class="w-5 h-5 group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+            <span>Ajouter au panier</span>
           </button>
         </div>
       </div>
@@ -122,11 +134,11 @@ function filterByCategory(cat) {
 document.addEventListener('click', (e) => {
   if (e.target.classList && e.target.classList.contains('category-btn')) {
     document.querySelectorAll('.category-btn').forEach(b => {
-      b.classList.remove('bg-indigo-600', 'text-white', 'shadow-md');
-      b.classList.add('bg-white', 'text-gray-600', 'border-gray-200');
+      b.classList.remove('bg-gradient-to-r', 'from-indigo-600', 'to-purple-600', 'text-white', 'shadow-lg', 'border-transparent');
+      b.classList.add('bg-white', 'text-gray-700', 'border-gray-200');
     });
-    e.target.classList.remove('bg-white', 'text-gray-600', 'border-gray-200');
-    e.target.classList.add('bg-indigo-600', 'text-white', 'shadow-md');
+    e.target.classList.remove('bg-white', 'text-gray-700', 'border-gray-200');
+    e.target.classList.add('bg-gradient-to-r', 'from-indigo-600', 'to-purple-600', 'text-white', 'shadow-lg', 'border-transparent');
     const cat = e.target.dataset.category;
     renderArticles(filterByCategory(cat));
   }

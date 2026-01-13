@@ -5,8 +5,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>KENOVARDY'Shop - Boutique en ligne</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'sans': ['Outfit', 'system-ui', 'sans-serif'],
+            'serif': ['Playfair Display', 'Georgia', 'serif'],
+          },
+          colors: {
+            'brand': {
+              'dark': '#0f172a',
+              'gold': '#d4af37',
+              'rose': '#f43f5e',
+            },
+          },
+          animation: {
+            'fade-in-up': 'fadeInUp 0.6s ease-out',
+            'fade-in': 'fadeIn 0.4s ease-out',
+          },
+          keyframes: {
+            fadeInUp: {
+              '0%': { opacity: '0', transform: 'translateY(20px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+          },
+        },
+      },
+    }
+  </script>
+
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
@@ -19,40 +61,46 @@
 
 
   <!-- Navbar -->
-  <!-- Navbar -->
-  <header class="sticky top-0 z-50 glass transition-all duration-300">
-    <nav class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+  <header
+    class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100/50 shadow-sm transition-all duration-300">
+    <nav class="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
       <a href="index.html" class="flex items-center gap-3 group">
         <div class="relative">
-          <div class="absolute inset-0 bg-indigo-500 rounded-full blur opacity-25 group-hover:opacity-50 transition">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity">
           </div>
-          <img src="images/logo.png" alt="Logo" class="h-10 w-10 object-contain relative z-10">
+          <img src="images/logo.png" alt="Logo" class="h-12 w-12 object-contain relative z-10 rounded-xl">
         </div>
         <span
-          class="text-2xl font-bold tracking-tight text-gray-900 group-hover:text-indigo-600 transition-colors">KENOVARDY<span
-            class="text-indigo-600">'Shop</span></span>
+          class="text-2xl font-serif font-bold tracking-tight text-gray-900 group-hover:text-indigo-600 transition-colors">
+          KENOVARDY<span class="text-indigo-600">'Shop</span>
+        </span>
       </a>
 
       <!-- Desktop Menu -->
-      <ul class="hidden md:flex space-x-8 items-center font-medium text-gray-700">
-        <li><a href="index.html" class="hover:text-indigo-600 transition-colors">Accueil</a></li>
-        <li><a href="about.html" class="hover:text-indigo-600 transition-colors">À propos</a></li>
-        <li><a href="auth.html" class="hover:text-indigo-600 transition-colors">Connexion</a></li>
-
-        <li><a href="commande.html" class="hover:text-indigo-600 transition-colors">Mes Commandes</a></li>
-        <li class="relative">
+      <ul class="hidden md:flex space-x-1 items-center font-medium text-gray-700">
+        <li><a href="index.html"
+            class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Accueil</a></li>
+        <li><a href="about.html" class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">À
+            propos</a></li>
+        <li><a href="auth.html"
+            class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Connexion</a></li>
+        <li><a href="commande.html"
+            class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Mes Commandes</a></li>
+        <li class="relative ml-2">
           <a href="panier.html"
-            class="flex items-center bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full hover:bg-indigo-600 hover:text-white transition-all shadow-sm">
+            class="flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 hover:-translate-y-0.5">
             <span class="mr-2 text-lg">🛒</span>
-            <span class="font-bold">Panier</span>
+            <span class="font-semibold">Panier</span>
             <span id="panier-count"
-              class="ml-2 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full hidden animate-pulse"></span>
+              class="ml-2 bg-white text-indigo-600 text-xs font-bold px-2 py-0.5 rounded-full hidden"></span>
           </a>
         </li>
       </ul>
 
       <!-- Mobile Menu Button -->
-      <button id="mobile-menu-btn" class="md:hidden text-gray-800 focus:outline-none p-2 rounded-md hover:bg-gray-100">
+      <button id="mobile-menu-btn"
+        class="md:hidden text-gray-800 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
         </svg>
@@ -62,22 +110,20 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu"
       class="hidden md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md absolute w-full shadow-lg">
-      <ul class="flex flex-col p-4 space-y-3 font-medium text-gray-700">
+      <ul class="flex flex-col p-4 space-y-2 font-medium text-gray-700">
         <li><a href="index.html"
-            class="block hover:bg-indigo-50 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors">Accueil</a>
-        </li>
+            class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Accueil</a></li>
         <li><a href="about.html"
-            class="block hover:bg-indigo-50 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors">À propos</a>
-        </li>
+            class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">À propos</a></li>
         <li><a href="auth.html"
-            class="block hover:bg-indigo-50 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors">Connexion</a>
+            class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Connexion</a>
         </li>
         <li><a href="commande.html"
-            class="block hover:bg-indigo-50 hover:text-indigo-600 px-3 py-2 rounded-lg transition-colors">Mes
-            Commandes</a></li>
+            class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Mes Commandes</a>
+        </li>
         <li>
           <a href="panier.html"
-            class="block bg-indigo-600 text-white px-3 py-2 rounded-lg text-center hover:bg-indigo-700 transition-colors">
+            class="block bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-lg text-center hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg">
             Mon Panier 🛒
           </a>
         </li>
@@ -86,51 +132,81 @@
   </header>
 
   <!-- Hero Section -->
-  <!-- Hero Section -->
-  <section class="relative bg-gradient-to-br from-indigo-900 to-indigo-700 text-white py-24 sm:py-32 overflow-hidden">
-    <div class="absolute inset-0 bg-[url('images/pattern.png')] opacity-10 mix-blend-overlay"></div>
+  <section
+    class="relative bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900 text-white py-32 sm:py-40 overflow-hidden">
+    <!-- Animated Background -->
+    <div class="absolute inset-0 bg-[url('images/pattern.png')] opacity-5 mix-blend-overlay"></div>
+    <div class="absolute inset-0">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"
+        style="animation-delay: 1.5s;"></div>
+    </div>
+
     <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
       <span
-        class="inline-block py-1 px-3 rounded-full bg-indigo-500/30 border border-indigo-400/30 text-indigo-100 text-sm font-semibold mb-6 animate-pulse">
-        Nouvelle Collection Parfumerie 2025
+        class="inline-block py-2 px-5 rounded-full bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-400/30 text-indigo-200 text-sm font-semibold mb-8 backdrop-blur-sm animate-fade-in">
+        ✨ Nouvelle Collection Parfumerie 2025
       </span>
-      <h1 class="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight leading-tight">
-        L'Essence de Votre <span
-          class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500">Élégance</span>
+
+      <h1 class="text-6xl md:text-8xl font-serif font-bold mb-8 tracking-tight leading-tight animate-fade-in-up">
+        L'Essence de Votre <br>
+        <span
+          class="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-orange-400">Élégance</span>
       </h1>
-      <p class="text-xl text-indigo-100 mb-10 max-w-2xl mx-auto font-light">
-        Découvrez nos fragrances exclusives et parfums de luxe. Qualité exceptionnelle pour elle et pour lui.
+
+      <p class="text-xl md:text-2xl text-indigo-100 mb-12 max-w-3xl mx-auto font-light leading-relaxed animate-fade-in-up"
+        style="animation-delay: 0.2s;">
+        Découvrez nos fragrances exclusives et parfums de luxe.<br class="hidden sm:block">
+        Qualité exceptionnelle pour elle et pour lui.
       </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+
+      <div class="flex flex-col sm:flex-row gap-5 justify-center animate-fade-in-up" style="animation-delay: 0.4s;">
         <a href="#catalogue"
-          class="group bg-white text-indigo-700 py-3 px-8 rounded-full text-lg font-bold shadow-xl hover:shadow-2xl hover:bg-gray-50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2">
-          Voir le catalogue
-          <span class="group-hover:translate-x-1 transition-transform">→</span>
+          class="group relative bg-white text-slate-900 py-4 px-10 rounded-2xl text-lg font-bold shadow-2xl hover:shadow-white/20 transition-all transform hover:-translate-y-1 hover:scale-105 flex items-center justify-center gap-3 overflow-hidden">
+          <span class="relative z-10">Voir le catalogue</span>
+          <svg class="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+          </svg>
+          <div
+            class="absolute inset-0 bg-gradient-to-r from-indigo-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity">
+          </div>
         </a>
+
         <a href="#about"
-          class="bg-indigo-600/50 border border-indigo-400/30 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-indigo-600/70 transition-all backdrop-blur-sm">
+          class="group bg-white/10 backdrop-blur-md border-2 border-white/30 text-white py-4 px-10 rounded-2xl text-lg font-semibold hover:bg-white/20 hover:border-white/50 transition-all hover:scale-105 flex items-center justify-center gap-2">
           En savoir plus
+          <svg class="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
         </a>
       </div>
     </div>
   </section>
 
   <!-- Catégories -->
-  <section id="catalogue" class="py-10 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">Catalogue Parfumerie</h2>
-      <div class="flex flex-wrap justify-center gap-4 mb-12" id="categories-container">
+  <section id="catalogue" class="py-20 bg-gradient-to-b from-white to-gray-50">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-5xl md:text-6xl font-serif font-bold mb-4 text-gray-900">Catalogue Parfumerie</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Explorez notre collection exclusive de fragrances raffinées
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 mb-16" id="categories-container">
         <button
-          class="category-btn px-6 py-2 rounded-full text-sm font-semibold transition-all border border-transparent bg-indigo-600 text-white shadow-md active"
+          class="category-btn px-8 py-3 rounded-2xl text-sm font-semibold transition-all border-2 border-transparent bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:shadow-xl hover:scale-105 active"
           data-category="tous">Tous les articles</button>
         <button
-          class="category-btn px-6 py-2 rounded-full text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-600 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md"
+          class="category-btn px-8 py-3 rounded-2xl text-sm font-semibold transition-all border-2 border-gray-200 bg-white text-gray-700 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md hover:scale-105"
           data-category="brume">Brume</button>
         <button
-          class="category-btn px-6 py-2 rounded-full text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-600 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md"
+          class="category-btn px-8 py-3 rounded-2xl text-sm font-semibold transition-all border-2 border-gray-200 bg-white text-gray-700 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md hover:scale-105"
           data-category="deodorants">Déodorants</button>
         <button
-          class="category-btn px-6 py-2 rounded-full text-sm font-semibold transition-all border border-gray-200 bg-white text-gray-600 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md"
+          class="category-btn px-8 py-3 rounded-2xl text-sm font-semibold transition-all border-2 border-gray-200 bg-white text-gray-700 hover:border-indigo-500 hover:text-indigo-600 hover:shadow-md hover:scale-105"
           data-category="parfums">Parfums</button>
       </div>
     </div>
@@ -141,21 +217,27 @@
   </div>
 
   <!-- À Propos -->
-  <section class="py-16 bg-gray-50">
-    <div class="max-w-7xl mx-auto text-center">
-      <h2 class="text-3xl font-bold mb-8">À propos de KENOVARDY'Shop</h2>
-      <p class="text-lg mb-6">KENOVARDY'Shop vous propose une sélection raffinée de parfums et d'essences pour tous les
-        goûts.
-        Notre mission : vous offrir l'excellence olfactive !</p>
-      <a href="about.html" class="bg-blue-600 text-white py-2 px-6 rounded-lg text-xl hover:bg-blue-700">En savoir
-        plus</a>
+  <section id="about" class="py-24 bg-white">
+    <div class="max-w-4xl mx-auto text-center px-6">
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 text-gray-900">À propos de KENOVARDY'Shop</h2>
+      <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+        KENOVARDY'Shop vous propose une sélection raffinée de parfums et d'essences pour tous les goûts.
+        Notre mission : vous offrir l'excellence olfactive !
+      </p>
+      <a href="about.html"
+        class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-4 px-8 rounded-2xl text-lg font-semibold hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+        En savoir plus
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+        </svg>
+      </a>
     </div>
   </section>
 
   <!-- Témoignages -->
-  <section class="py-20 bg-indigo-50">
+  <section class="py-24 bg-gradient-to-b from-gray-50 to-indigo-50">
     <div class="max-w-7xl mx-auto px-6">
-      <h2 class="text-3xl font-bold mb-12 text-center text-gray-900">Ils nous font confiance</h2>
+      <h2 class="text-4xl md:text-5xl font-serif font-bold mb-16 text-center text-gray-900">Ils nous font confiance</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
         <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-md transition-shadow">
           <div class="flex items-center mb-4">
