@@ -102,7 +102,7 @@ async function loadAndRender() {
         <img src="${imgSrc}" alt="${a.nom}" class="w-full h-48 object-cover rounded mb-3" onerror="this.src='${API_URL}/images/article1.jpg'">
         <h3 class="text-xl font-semibold text-gray-900">${a.nom || 'Article sans nom'}</h3>
         <p class="text-gray-600 mb-2">${a.description || 'Pas de description'}</p>
-        <p class="font-bold mb-3 text-indigo-600">Prix: ${(parseFloat(a.prix) || 0).toFixed(2)} €</p>
+        <p class="font-bold mb-3 text-indigo-600">Prix: ${(parseFloat(a.prix) || 0).toFixed(0)} FCFA</p>
         <div class="mt-auto flex gap-2">
           <button class="edit-article bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded font-medium transition-colors" data-id="${a.id}">Modifier</button>
           <button class="delete-article bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded font-medium transition-colors" data-id="${a.id}">Supprimer</button>

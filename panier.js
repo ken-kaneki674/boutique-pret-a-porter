@@ -26,22 +26,32 @@ function afficherPanier() {
     total += prix * quantite;
 
     const articleCard = document.createElement('div');
-    articleCard.className = "bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col hover:shadow-md transition-shadow";
+    articleCard.className = "group bg-white rounded-3xl shadow-md border border-gray-100 overflow-hidden flex flex-col transition-all duration-500 hover:shadow-2xl hover:-translate-y-2 hover:border-indigo-200";
 
     articleCard.innerHTML = `
-      <div class="relative h-48">
-          <img src="${article.image || 'images/article1.jpg'}" alt="${article.nom || 'Article'}" class="w-full h-full object-cover" onerror="this.src='images/article1.jpg'">
-          <div class="absolute top-2 right-2">
-             <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">x${quantite}</span>
+      <div class="relative overflow-hidden h-64 bg-gradient-to-br from-gray-50 to-gray-100">
+          <img src="${article.image || 'images/article1.jpg'}" alt="${article.nom || 'Article'}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='images/article1.jpg'">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          
+          <div class="absolute top-4 right-4 bg-indigo-600 text-white px-3 py-1 rounded-full font-bold shadow-lg transform group-hover:scale-110 transition-transform">
+             x${quantite}
           </div>
+          
+          <span class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-gray-700 text-xs font-bold px-3 py-1 rounded-full shadow-sm border border-gray-100">
+            ${article.categorie || 'Article'}
+          </span>
       </div>
-      <div class="p-5 flex-1 flex flex-col">
-        <h3 class="text-lg font-bold text-gray-900 mb-1">${article.nom || 'Article sans nom'}</h3>
-        <p class="text-indigo-600 font-bold text-xl mb-4">${prix.toFixed(2)} €/unité</p>
+      
+      <div class="p-6 flex-1 flex flex-col">
+        <div class="mb-4">
+            <h3 class="text-xl font-serif font-bold text-gray-900 group-hover:text-indigo-600 transition-colors mb-2 line-clamp-1">${article.nom || 'Article sans nom'}</h3>
+            <p class="text-3xl font-bold text-gray-900">${prix.toFixed(0)} FCFA</p>
+            <p class="text-sm text-gray-400 mt-1">Total pour cet article: ${(prix * quantite).toFixed(0)} FCFA</p>
+        </div>
 
-        <div class="mt-auto">
-            <button data-id="${article.id}" class="supprimer-article w-full bg-red-50 text-red-600 hover:bg-red-100 py-2.5 rounded-xl font-semibold transition-colors flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+        <div class="mt-auto pt-4 border-t border-gray-100">
+            <button data-id="${article.id}" class="supprimer-article w-full bg-red-50 text-red-600 hover:bg-red-500 hover:text-white py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm hover:shadow-red-200 group/btn">
+                <svg class="w-5 h-5 pointer-events-none group-hover/btn:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 Supprimer
             </button>
         </div>
@@ -51,7 +61,7 @@ function afficherPanier() {
     panierContainer.appendChild(articleCard);
   });
 
-  totalPrix.textContent = `Total : ${total.toFixed(2)}€`;
+  totalPrix.textContent = `Total : ${total.toFixed(0)} FCFA`;
 }
 
 // Supprimer un article du panier
@@ -93,9 +103,9 @@ if (commandeBtn) {
     // Créer un message WhatsApp avec le contenu du panier
     let message = "Bonjour, je souhaite passer commande :\n\n";
     panier.forEach(article => {
-      message += `${article.nom} (x${article.quantite}) - ${article.prix}€\n`;
+      message += `${article.nom} (x${article.quantite}) - ${article.prix} FCFA\n`;
     });
-    message += `\nTotal: ${panier.reduce((total, article) => total + article.prix * article.quantite, 0).toFixed(2)}€`;
+    message += `\nTotal: ${panier.reduce((total, article) => total + article.prix * article.quantite, 0).toFixed(0)} FCFA`;
 
     const whatsappUrl = `https://wa.me/message/GM4TR23RZTU7J1?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, "_blank");

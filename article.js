@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         </span>
         <p class="text-gray-600 mb-6 text-lg leading-relaxed">${article.description || 'Pas de description disponible.'}</p>
         <div class="flex items-end gap-4 mb-8">
-             <p class="text-indigo-600 font-bold text-4xl">${article.prix} €</p>
+             <p class="text-indigo-600 font-bold text-4xl">${article.prix} FCFA</p>
         </div>
         
         <button id="ajouter-panier-detail" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-4 px-8 rounded-xl text-xl transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1 w-full md:w-auto">

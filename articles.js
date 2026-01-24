@@ -28,9 +28,9 @@ async function loadArticlesFromApi() {
     // fallback minimal si l'API indisponible
     console.warn('Impossible de charger l\'API, affichage des articles par défaut.', err);
     articles = [
-      { id: 1, nom: 'Chanel No. 5', prix: 120, image: 'images/article1.jpg', categorie: 'parfums', description: 'Le parfum intemporel et légendaire.' },
-      { id: 2, nom: 'Brume Vanille', prix: 25, image: 'images/article2.jpg', categorie: 'brume', description: 'Douceur sucrée.' },
-      { id: 3, nom: 'Déodorant Fraîcheur', prix: 15, image: 'images/article3.jpg', categorie: 'deodorants', description: 'Protection 24h.' },
+      { id: 1, nom: 'Chanel No. 5', prix: 78000, image: 'images/article1.jpg', categorie: 'parfums', description: 'Le parfum intemporel et légendaire.' },
+      { id: 2, nom: 'Brume Vanille', prix: 16250, image: 'images/article2.jpg', categorie: 'brume', description: 'Douceur sucrée.' },
+      { id: 3, nom: 'Déodorant Fraîcheur', prix: 9750, image: 'images/article3.jpg', categorie: 'deodorants', description: 'Protection 24h.' },
     ];
   }
 }
@@ -92,7 +92,7 @@ function renderArticles(list) {
           <div class="flex items-center justify-between mb-4">
             <div>
               <p class="text-xs text-gray-500 mb-1">Prix</p>
-              <span class="text-3xl font-bold text-gray-900">${window.formatPrice ? window.formatPrice(a.prix) : a.prix + ' €'}</span>
+              <span class="text-3xl font-bold text-gray-900">${window.formatPrice ? window.formatPrice(a.prix) : a.prix + ' FCFA'}</span>
             </div>
           </div>
           

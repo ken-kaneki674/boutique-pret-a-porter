@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aide & FAQ - KENOVARDY'Shop</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="tailwindcss.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'sans': ['Outfit', 'system-ui', 'sans-serif'],
+                        'serif': ['Playfair Display', 'Georgia', 'serif'],
+                    },
+                },
+            },
+        }
+    </script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="bg-gray-50">
+
+    <div id="loader" class="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+    </div>
+
+    <!-- Navbar -->
+    <header
+        class="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100/50 shadow-sm transition-all duration-300">
+        <nav class="max-w-7xl mx-auto flex justify-between items-center px-6 py-5">
+            <a href="index.html" class="flex items-center gap-3 group">
+                <div class="relative">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-2xl blur-lg opacity-20 group-hover:opacity-40 transition-opacity">
+                    </div>
+                    <img src="images/logo.png" alt="Logo" class="h-12 w-12 object-contain relative z-10 rounded-xl">
+                </div>
+                <span
+                    class="text-2xl font-serif font-bold tracking-tight text-gray-900 group-hover:text-indigo-600 transition-colors">
+                    KENOVARDY<span class="text-indigo-600">'Shop</span>
+                </span>
+            </a>
+
+            <!-- Desktop Menu -->
+            <ul class="hidden md:flex space-x-1 items-center font-medium text-gray-700">
+                <li><a href="index.html"
+                        class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Accueil</a>
+                </li>
+                <li><a href="about.html"
+                        class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">À
+                        propos</a></li>
+                <li><a href="auth.html"
+                        class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Connexion</a>
+                </li>
+                <li><a href="commande.html"
+                        class="px-4 py-2 rounded-lg hover:bg-indigo-50 hover:text-indigo-600 transition-all">Mes
+                        Commandes</a></li>
+                <li class="relative ml-2">
+                    <a href="panier.html"
+                        class="flex items-center bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-5 py-2.5 rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg shadow-indigo-200 hover:shadow-xl hover:shadow-indigo-300 hover:-translate-y-0.5">
+                        <span class="mr-2 text-lg">🛒</span>
+                        <span class="font-semibold">Panier</span>
+                        <span id="panier-count"
+                            class="ml-2 bg-white text-indigo-600 text-xs font-bold px-2 py-0.5 rounded-full hidden"></span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn"
+                class="md:hidden text-gray-800 focus:outline-none p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7">
+                    </path>
+                </svg>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu"
+            class="hidden md:hidden border-t border-gray-100 bg-white/95 backdrop-blur-md absolute w-full shadow-lg">
+            <ul class="flex flex-col p-4 space-y-2 font-medium text-gray-700">
+                <li><a href="index.html"
+                        class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Accueil</a>
+                </li>
+                <li><a href="about.html"
+                        class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">À
+                        propos</a></li>
+                <li><a href="auth.html"
+                        class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Connexion</a>
+                </li>
+                <li><a href="commande.html"
+                        class="block hover:bg-indigo-50 hover:text-indigo-600 px-4 py-3 rounded-lg transition-all">Mes
+                        Commandes</a></li>
+                <li>
+                    <a href="panier.html"
+                        class="block bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-3 rounded-lg text-center hover:from-indigo-700 hover:to-purple-700 transition-all shadow-lg">
+                        Mon Panier 🛒
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section
+        class="relative bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white py-20 overflow-hidden">
+        <div
+            class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzR2LTRoLTJ2NGgtNHYyaDR2NGgydi00aDR2LTJoLTR6bTAtMzBWMGgtMnY0aC00djJoNHY0aDJWNmg0VjRoLTR6TTYgMzR2LTRINHY0SDB2Mmg0djRoMnYtNGg0di0ySDZ6TTYgNFYwSDR2NEgwdjJoNHY0aDJWNmg0VjRINnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-10">
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <div
+                class="inline-flex items-center gap-2 bg-white/20 border border-white/30 rounded-full px-5 py-2 mb-6 backdrop-blur-sm">
+                <span class="text-2xl">💬</span>
+                <span class="font-semibold text-sm">Centre d'Aide</span>
+            </div>
+
+            <h1 class="text-5xl md:text-6xl font-serif font-bold mb-6">Questions Fréquentes</h1>
+            <p class="text-xl text-indigo-100 max-w-2xl mx-auto">
+                Trouvez rapidement des réponses à vos questions sur nos produits, livraisons et services.
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20">
+        <div class="max-w-4xl mx-auto px-6">
+
+            <!-- Commandes -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <span
+                        class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-xl">📦</span>
+                    Commandes
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Comment passer une commande ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Pour passer une commande, ajoutez simplement les articles souhaités à votre panier en
+                                cliquant sur "Ajouter au panier". Une fois vos achats terminés, cliquez sur l'icône
+                                panier en haut à droite, vérifiez votre commande et cliquez sur "Passer Commande". Vous
+                                serez redirigé vers WhatsApp pour finaliser votre achat avec notre équipe.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Puis-je modifier ma commande après validation
+                                ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Vous pouvez modifier votre commande dans les 2 heures suivant sa validation en contactant
+                                notre service client via WhatsApp ou par email. Passé ce délai, la commande est en cours
+                                de préparation et ne peut plus être modifiée.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Comment suivre ma commande ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Rendez-vous dans la section "Mes Commandes" accessible depuis le menu principal. Vous y
+                                trouverez l'historique complet de vos commandes avec leur statut en temps réel (En
+                                préparation, Expédiée, Livrée).</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Livraison -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <span
+                        class="w-10 h-10 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl">🚚</span>
+                    Livraison
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Quels sont les délais de livraison ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Nous livrons en 24-48h partout en France métropolitaine. Pour les DOM-TOM et
+                                l'international, comptez 5-7 jours ouvrés. Vous recevrez un email de confirmation avec
+                                le numéro de suivi dès l'expédition de votre colis.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Quels sont les frais de livraison ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>La livraison est <strong>gratuite</strong> pour toute commande supérieure à 32 500 FCFA.
+                                En
+                                dessous de ce montant, les frais de livraison sont de 3 200 FCFA en France
+                                métropolitaine.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Livrez-vous à l'international ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Oui, nous livrons dans plus de 30 pays à travers le monde. Les frais de livraison varient
+                                selon la destination. Contactez-nous pour obtenir un devis personnalisé.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paiement -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <span
+                        class="w-10 h-10 bg-yellow-100 text-yellow-600 rounded-xl flex items-center justify-center text-xl">💳</span>
+                    Paiement
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Quels modes de paiement acceptez-vous ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Nous acceptons les cartes bancaires (Visa, Mastercard, American Express), PayPal, et le
+                                paiement en 3 ou 4 fois sans frais à partir de 65 000 FCFA. Tous les paiements sont
+                                sécurisés
+                                par cryptage SSL.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Mes données bancaires sont-elles sécurisées
+                                ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Absolument ! Toutes les transactions sont cryptées et sécurisées. Nous ne stockons aucune
+                                donnée bancaire sur nos serveurs. Le paiement est géré par des prestataires certifiés
+                                PCI-DSS.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Produits -->
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+                    <span
+                        class="w-10 h-10 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl">✨</span>
+                    Produits
+                </h2>
+
+                <div class="space-y-4">
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Vos parfums sont-ils authentiques ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Oui, tous nos parfums sont 100% authentiques et proviennent directement des marques
+                                officielles. Nous garantissons l'authenticité de chaque produit vendu sur notre
+                                boutique.</p>
+                        </div>
+                    </div>
+
+                    <div class="faq-item bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                        <button
+                            class="faq-question w-full text-left px-6 py-5 flex justify-between items-center hover:bg-gray-50 transition-colors">
+                            <span class="font-semibold text-gray-900">Comment conserver mes parfums ?</span>
+                            <svg class="w-5 h-5 text-gray-500 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div class="faq-answer hidden px-6 pb-5 text-gray-600">
+                            <p>Pour préserver la qualité de vos parfums, conservez-les à l'abri de la lumière directe,
+                                de la chaleur et de l'humidité. Gardez-les dans leur boîte d'origine dans un endroit
+                                frais et sec.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact CTA -->
+            <div class="bg-gradient-to-br from-indigo-600 to-purple-600 rounded-3xl p-10 text-center text-white mt-16">
+                <h3 class="text-3xl font-bold mb-4">Vous ne trouvez pas votre réponse ?</h3>
+                <p class="text-indigo-100 mb-8 text-lg">Notre équipe est là pour vous aider !</p>
+                <a href="contact.html"
+                    class="inline-flex items-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all shadow-lg hover:scale-105">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                        </path>
+                    </svg>
+                    Contactez-nous
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer
+        class="relative bg-gradient-to-br from-gray-950 via-indigo-950 to-gray-900 text-gray-300 py-12 mt-20 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 relative z-10 text-center">
+            <p class="text-lg mb-4">© 2025 KENOVARDY'Shop - Tous droits réservés</p>
+            <div class="flex justify-center space-x-6">
+                <a href="#" class="hover:text-indigo-400 transition-colors">Facebook</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">WhatsApp</a>
+                <a href="#" class="hover:text-indigo-400 transition-colors">TikTok</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const answer = faqItem.querySelector('.faq-answer');
+                const icon = button.querySelector('svg');
+
+                // Toggle current item
+                answer.classList.toggle('hidden');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+    </script>
+
+</body>
+
+</html>

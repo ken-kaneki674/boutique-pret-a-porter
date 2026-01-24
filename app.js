@@ -25,13 +25,11 @@ window.updatePanierBadge = function () {
 
 // Gestion du loader et affichage initial
 if (!window.loaderHandled) {
-  window.addEventListener('load', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     if (loader) {
       loader.style.display = 'none';
     }
-    document.body.classList.remove('opacity-0');
-    document.body.classList.add('opacity-100');
 
     // Mettre à jour le badge du panier
     window.updatePanierBadge();
@@ -87,12 +85,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fonction utilitaire pour formater les prix
-window.formatPrice = function(price) {
-  return parseFloat(price || 0).toFixed(2) + ' €';
+window.formatPrice = function (price) {
+  return parseFloat(price || 0).toFixed(0) + ' FCFA';
 };
 
 // Fonction utilitaire pour tronquer le texte
-window.truncateText = function(text, maxLength) {
+window.truncateText = function (text, maxLength) {
   if (!text || text.length <= maxLength) return text;
   return text.substring(0, maxLength) + '...';
 };
