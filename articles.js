@@ -3,14 +3,30 @@
 
 // articles.js — récupère le catalogue depuis l'API (/api/articles) et gère l'affichage + ajout au panier
 
-const API_URL = 'http://localhost:3000'; // Make sure backend is running on this port
+const getApiUrl = () => {
+  const hostname = window.location.hostname;
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
+    return 'http://localhost:3000';
+  }
+  return null;
+};
+
+const API_URL = getApiUrl();
 
 const articlesGrid = document.getElementById('articles-grid');
 const categoryButtons = document.querySelectorAll('.category-btn');
 
 let articles = [];
 
+// function loadArticlesFromApi...
 async function loadArticlesFromApi() {
+  // Mode démo ou backend non dispo
+  if (!API_URL) {
+    console.log('Mode en ligne détecté : utilisation des données de secours.');
+    loadFallbackData();
+    return;
+  }
+
   try {
     const res = await fetch(`${API_URL}/api/articles`);
     if (!res.ok) throw new Error('Fetch failed');
@@ -27,12 +43,12 @@ async function loadArticlesFromApi() {
   } catch (err) {
     // fallback minimal si l'API indisponible
     console.warn('Impossible de charger l\'API, affichage des articles par défaut.', err);
-    articles = [
-      { id: 1, nom: 'Chanel No. 5', prix: 78000, image: 'images/article1.jpg', categorie: 'parfums', description: 'Le parfum intemporel et légendaire.' },
-      { id: 2, nom: 'Brume Vanille', prix: 16250, image: 'images/article2.jpg', categorie: 'brume', description: 'Douceur sucrée.' },
-      { id: 3, nom: 'Déodorant Fraîcheur', prix: 9750, image: 'images/article3.jpg', categorie: 'deodorants', description: 'Protection 24h.' },
-    ];
+    loadFallbackData();
   }
+}
+
+function loadFallbackData() {
+  articles = []; // Aucun article par défaut
 }
 
 function renderArticles(list) {

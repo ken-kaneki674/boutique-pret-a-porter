@@ -25,13 +25,8 @@ function writeData(data) {
 
 // Ensure seed
 const data = readData();
-if (!Array.isArray(data.articles) || data.articles.length === 0) {
-  data.articles = [
-    { id: 1, nom: 'Chanel No. 5', description: 'Le parfum intemporel et légendaire.', prix: 120, image: 'images/article1.jpg', categorie: 'parfums' },
-    { id: 2, nom: 'Brume Victoria', description: 'Une brume légère et fruitée.', prix: 25, image: 'images/article2.jpg', categorie: 'brume' },
-    { id: 3, nom: 'Déodorant Sauvage', description: 'Protection longue durée.', prix: 35, image: 'images/article3.jpg', categorie: 'deodorants' },
-    { id: 4, nom: 'Coffret Luxe', description: 'Assortiment complet.', prix: 150, image: 'images/article4.jpg', categorie: 'parfums' }
-  ];
+if (!Array.isArray(data.articles)) {
+  data.articles = [];
   writeData(data);
 }
 

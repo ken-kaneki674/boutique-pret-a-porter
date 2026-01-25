@@ -1,6 +1,15 @@
 // admin.js - Gestion CRUD des articles via l'API
 
-const API_URL = 'http://localhost:3000'; // Make sure backend is running on this port
+const getApiUrl = () => {
+  const hostname = window.location.hostname;
+  // Support localhost, 127.0.0.1, and file:// (empty hostname)
+  if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
+    return 'http://localhost:3000';
+  }
+  return null; // Mode en ligne (GitHub Pages) sans backend
+};
+
+const API_URL = getApiUrl();
 
 const adminForm = document.getElementById('admin-form');
 const titreInput = document.getElementById('titre');
@@ -69,22 +78,47 @@ function resetForm() {
 
 // Récupérer les articles depuis l'API
 async function fetchArticles() {
+  if (!API_URL) return []; // Mode démo : pas d'articles API
   try {
     const res = await fetch(`${API_URL}/api/articles`);
     if (!res.ok) throw new Error(`Erreur HTTP: ${res.status}`);
     return await res.json();
   } catch (e) {
     console.error('Impossible de récupérer les articles', e);
-    return [];
+    // On propage l'erreur pour pouvoir afficher l'alerte "Backend non lancé"
+    throw e;
   }
 }
 
 // Charger et afficher les articles
 async function loadAndRender() {
+  // 1. Vérification du mode (Local vs En ligne)
+  if (!API_URL) {
+    // Cas: En ligne (GitHub Pages)
+    if (adminCatalogue) {
+      adminCatalogue.innerHTML = `
+        <div class="col-span-full bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">Mode Démo !</strong>
+          <span class="block sm:inline">Le site est en ligne, mais le backend (base de données) ne peut pas tourner sur GitHub Pages. Les fonctionnalités d'ajout/modification sont désactivées.</span>
+        </div>
+      `;
+    }
+    // Désactiver le formulaire
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Désactivé en mode Démo";
+      submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    }
+    const inputs = adminForm ? adminForm.querySelectorAll('input, select, textarea') : [];
+    inputs.forEach(input => input.disabled = true);
+    return;
+  }
+
+  // 2. Cas: Local (tentative de connexion au backend)
   try {
     const list = await fetchArticles();
-    if (!adminCatalogue) return;
 
+    if (!adminCatalogue) return;
     adminCatalogue.innerHTML = '';
 
     if (list.length === 0) {
@@ -99,7 +133,7 @@ async function loadAndRender() {
       const card = document.createElement('div');
       card.className = 'bg-white rounded-lg shadow-md p-4 flex flex-col';
       card.innerHTML = `
-        <img src="${imgSrc}" alt="${a.nom}" class="w-full h-48 object-cover rounded mb-3" onerror="this.src='${API_URL}/images/article1.jpg'">
+        <img src="${imgSrc}" alt="${a.nom}" class="w-full h-48 object-cover rounded mb-3" onerror="this.src='images/article1.jpg'">
         <h3 class="text-xl font-semibold text-gray-900">${a.nom || 'Article sans nom'}</h3>
         <p class="text-gray-600 mb-2">${a.description || 'Pas de description'}</p>
         <p class="font-bold mb-3 text-indigo-600">Prix: ${(parseFloat(a.prix) || 0).toFixed(0)} FCFA</p>
@@ -110,10 +144,17 @@ async function loadAndRender() {
       `;
       adminCatalogue.appendChild(card);
     });
+
   } catch (error) {
     console.error('Erreur lors du chargement des articles:', error);
     if (adminCatalogue) {
-      adminCatalogue.innerHTML = '<p class="text-center text-red-500 py-8">Erreur de chargement des articles. Vérifiez que le serveur backend est lancé (port 3000).</p>';
+      adminCatalogue.innerHTML = `
+        <div class="col-span-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+          <strong class="font-bold">Backend non détecté !</strong>
+          <span class="block sm:inline">Vous êtes en local, mais le serveur backend ne semble pas être lancé.</span>
+          <p class="mt-2 text-sm">👉 Lancez le fichier <code>start_website.bat</code> ou ouvrez un terminal dans le dossier <code>backend</code> et faites <code>npm start</code>.</p>
+        </div>
+      `;
     }
   }
 }

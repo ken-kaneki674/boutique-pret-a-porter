@@ -1,36 +1,28 @@
 {
   "articles": [
     {
-      "nom": "nivea",
-      "description": "vaporissateur",
-      "prix": 1000,
-      "image": "images/1768556125878-203027743.webp",
+      "nom": "Confetti",
+      "description": "senteur",
+      "prix": 1500,
+      "image": "images/1769299155415-404453957.jpg",
       "categorie": "deodorants",
       "id": 1
     },
     {
-      "nom": "Confetti",
-      "description": "santeur",
-      "prix": 1500,
-      "image": "images/1768576450846-726570758.jpg",
-      "categorie": "brume",
+      "nom": "lattafa",
+      "description": "senteur",
+      "prix": 8500,
+      "image": "images/1769299215460-337106134.jpg",
+      "categorie": "parfums",
       "id": 2
     },
     {
       "nom": "confetti",
-      "description": "viue",
-      "prix": 2000,
-      "image": "images/1768576502308-759068405.jpg",
-      "categorie": "deodorants",
+      "description": "sau",
+      "prix": 2500,
+      "image": "images/1769299248598-180752411.jpg",
+      "categorie": "brume",
       "id": 3
-    },
-    {
-      "nom": "lataffa",
-      "description": "senteur",
-      "prix": 4000,
-      "image": "images/1769230392074-352664789.webp",
-      "categorie": "parfums",
-      "id": 4
     }
   ],
   "orders": []
