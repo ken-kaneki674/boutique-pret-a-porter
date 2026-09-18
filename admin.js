@@ -2,11 +2,20 @@
 
 const getApiUrl = () => {
   const hostname = window.location.hostname;
-  // Support localhost, 127.0.0.1, and file:// (empty hostname)
+
+  // 1. Local Development (File or Localhost)
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
     return 'http://localhost:3000';
   }
-  return null; // Mode en ligne (GitHub Pages) sans backend
+
+  // 2. GitHub Pages (Demo Mode - Frontend Only)
+  if (hostname.includes('github.io')) {
+    return null;
+  }
+
+  // 3. Production (AlwaysData, Heroku, etc.)
+  // If we are here, we assume the backend serves the frontend
+  return window.location.origin;
 };
 
 const API_URL = getApiUrl();
@@ -78,7 +87,7 @@ function resetForm() {
 
 // Récupérer les articles depuis l'API
 async function fetchArticles() {
-  if (!API_URL) return []; // Mode démo : pas d'articles API
+  if (API_URL === null) return []; // Mode démo : pas d'articles API
   try {
     const res = await fetch(`${API_URL}/api/articles`);
     if (!res.ok) throw new Error(`Erreur HTTP: ${res.status}`);
@@ -93,7 +102,7 @@ async function fetchArticles() {
 // Charger et afficher les articles
 async function loadAndRender() {
   // 1. Vérification du mode (Local vs En ligne)
-  if (!API_URL) {
+  if (API_URL === null) {
     // Cas: En ligne (GitHub Pages)
     if (adminCatalogue) {
       adminCatalogue.innerHTML = `

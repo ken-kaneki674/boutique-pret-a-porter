@@ -8,7 +8,10 @@ const getApiUrl = () => {
   if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname === '') {
     return 'http://localhost:3000';
   }
-  return null;
+  if (hostname.includes('github.io')) {
+    return null;
+  }
+  return window.location.origin;
 };
 
 const API_URL = getApiUrl();
@@ -21,7 +24,7 @@ let articles = [];
 // function loadArticlesFromApi...
 async function loadArticlesFromApi() {
   // Mode démo ou backend non dispo
-  if (!API_URL) {
+  if (API_URL === null) {
     console.log('Mode en ligne détecté : utilisation des données de secours.');
     loadFallbackData();
     return;

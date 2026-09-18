@@ -1,18 +1,18 @@
-# KENOVARDY'Shop - Parfumerie en Ligne
+# KENOVARDY'Shop - Boutique Prêt-à-Porter en Ligne
 
-Bienvenue dans le projet **KENOVARDY'Shop**, une application e-commerce moderne dédiée à la vente de parfums et produits de beauté.
+Bienvenue dans le projet **KENOVARDY'Shop**, une application e-commerce moderne dédiée à la vente de vêtements et accessoires de mode.
 
 ## 📋 Description
 
-Ce projet est une boutique en ligne complète permettant aux utilisateurs de consulter un catalogue de produits (parfums, brumes, déodorants), de gérer un panier d'achat et de passer commande. Il inclut également une interface d'administration pour la gestion des articles.
+Ce projet est une boutique en ligne complète permettant aux utilisateurs de consulter un catalogue de produits vestimentaires, de gérer un panier d'achat et de passer commande. Il inclut également une interface d'administration pour la gestion des articles, ainsi que des pages d'information (guide des tailles, FAQ, retours, programme de fidélité).
 
 ## ✨ Fonctionnalités
 
 ### Côté Client (Frontend)
 
-- **Catalogue interactif** : Filtrage par catégories (Parfums, Brumes, Déodorants).
+- **Catalogue interactif** : Filtrage par catégories de vêtements et accessoires.
 - **Panier dynamique** : Ajout de produits, gestion des quantités, persistance via LocalStorage.
-- **Pages d'information** : À propos, Contact, FAQ, Guide des tailles, etc.
+- **Pages d'information** : À propos, Contact, FAQ, Guide des tailles, Retours, Programme de fidélité.
 - **Design moderne** : Interface soignée et réactive utilisant Tailwind CSS.
 
 ### Côté Serveur (Backend)
