@@ -16,9 +16,9 @@ const ARTICLE_API_URL = (() => {
     return null;
   }
 
-  // 3. Production (AlwaysData, Heroku, etc.)
-  // If we are here, we assume the backend serves the frontend
-  return window.location.origin;
+  // 3. Production (frontend et backend déployés séparément, ex: Vercel + Render)
+  // Voir config.js pour renseigner l'URL du backend.
+  return typeof PRODUCTION_API_URL !== 'undefined' ? PRODUCTION_API_URL : null;
 })();
 
 document.addEventListener('DOMContentLoaded', async function () {

@@ -13,9 +13,9 @@ const getApiUrl = () => {
     return null;
   }
 
-  // 3. Production (AlwaysData, Heroku, etc.)
-  // If we are here, we assume the backend serves the frontend
-  return window.location.origin;
+  // 3. Production (frontend et backend déployés séparément, ex: Vercel + Render)
+  // Voir config.js pour renseigner l'URL du backend.
+  return typeof PRODUCTION_API_URL !== 'undefined' ? PRODUCTION_API_URL : null;
 };
 
 const API_URL = getApiUrl();
@@ -157,11 +157,15 @@ async function loadAndRender() {
   } catch (error) {
     console.error('Erreur lors du chargement des articles:', error);
     if (adminCatalogue) {
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '';
+      const hint = isLocal
+        ? '<p class="mt-2 text-sm">👉 Lancez le fichier <code>start_website.bat</code> ou ouvrez un terminal dans le dossier <code>backend</code> et faites <code>npm start</code>.</p>'
+        : '<p class="mt-2 text-sm">👉 Vérifiez que <code>PRODUCTION_API_URL</code> dans <code>config.js</code> pointe vers un backend déployé et accessible.</p>';
       adminCatalogue.innerHTML = `
         <div class="col-span-full bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
           <strong class="font-bold">Backend non détecté !</strong>
-          <span class="block sm:inline">Vous êtes en local, mais le serveur backend ne semble pas être lancé.</span>
-          <p class="mt-2 text-sm">👉 Lancez le fichier <code>start_website.bat</code> ou ouvrez un terminal dans le dossier <code>backend</code> et faites <code>npm start</code>.</p>
+          <span class="block sm:inline">Le serveur backend (${API_URL}) ne répond pas.</span>
+          ${hint}
         </div>
       `;
     }

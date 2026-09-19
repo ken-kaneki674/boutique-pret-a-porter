@@ -11,7 +11,9 @@ const getApiUrl = () => {
   if (hostname.includes('github.io')) {
     return null;
   }
-  return window.location.origin;
+  // Production (frontend et backend déployés séparément, ex: Vercel + Render)
+  // Voir config.js pour renseigner l'URL du backend.
+  return typeof PRODUCTION_API_URL !== 'undefined' ? PRODUCTION_API_URL : null;
 };
 
 const API_URL = getApiUrl();
